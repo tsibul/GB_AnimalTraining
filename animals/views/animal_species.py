@@ -18,20 +18,22 @@ def animal_species(request, type_id):
 
 
 def add_animal_species(request, type_id):
-    animal_type = request.POST['type']
-    type_attribute = request.POST['attribute']
-    type_id = request.POST['type_id']
+    animal_type = AnimalType.objects.get(id=type_id)
+    animal_spec = request.POST['spec']
+    spec_attribute = request.POST['attribute']
+    spec_id = request.POST['spec_id']
     try:
-        animal_type_obj = AnimalType.objects.get(id=type_id)
-        animal_type_obj.type_name = animal_type
+        animal_spec_obj = AnimalSpecies.objects.get(id=spec_id)
+        animal_spec_obj.specie_name = animal_spec
     except:
-        animal_type_obj = AnimalType(type_name=animal_type)
-    animal_type_obj.type_attribute = type_attribute
-    animal_type_obj.save()
+        animal_spec_obj = AnimalSpecies(specie_name=animal_spec)
+    animal_spec_obj.specie_attribute = spec_attribute
+    animal_spec_obj.animal_type = animal_type
+    animal_spec_obj.save()
     return HttpResponseRedirect(reverse('animals:animal_species', args=type_id))
 
 
-def delete_type(request, type_id):
-    animal_type = AnimalType.objects.get(id=type_id)
-    animal_type.delete()
+def delete_type(request, type_id, spec_id):
+    animal_spec = AnimalSpecies.objects.get(id=spec_id)
+    animal_spec.delete()
     return HttpResponseRedirect(reverse('animals:animal_types', args=type_id))

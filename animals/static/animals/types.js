@@ -21,8 +21,6 @@ function fullData(row) {
 function emptyData(modal) {
     return {
         type_id:0,
-        type: '',
-        attribute: ''
     };
 }
 

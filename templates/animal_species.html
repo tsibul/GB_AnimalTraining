@@ -4,6 +4,7 @@
     {% load static %}
 
     <div class="wrapper">
+    <input type="hidden" value="{{ type_id }}" id="url-parameters">
         <div class="content">
             <div class="table-head">
                 <h2>Типы</h2>
@@ -14,18 +15,30 @@
                     <table class="responsive-table">
                         <thead>
                         <tr>
-                            <th>Тип</th>
+                            <th>Вид</th>
                             <th>Характеристика</th>
+                            <th class="show-on-small-screen">
+                                <select class="menu-select" id="color-filter" name="colorGroup"
+                                        onchange="if (this.value) window.location.href = this.value">
+                                    <option value="0">Тип</option>
+                                    {% for type in animal_types %}
+                                        <option value="{{ type.id }}">{{ type.type_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </th>
+
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for type in animal_types %}
-                            <tr data-id="{{ type.id }}" class="modal-row">
-                                <td data-label="тип">{{ type.type_name }}</td>
-                                <td data-label="характеристика">{{ type.type_attribute }}</td>
+                        {% for spec in animal_species %}
+                            <tr data-id="{{ spec.id }}" class="modal-row">
+                                <td data-label="вид">{{ spec.specie_name }}</td>
+                                <td data-label="характеристика">{{ spec.specie_attribute }}</td>
+                                <td data-label="тип"
+                                    data-id="{{ spec.animal_type.id }}">{{ spec.animal_type.type_name }}</td>
                                 <td onclick="event.stopPropagation()">
-                                    <a href="delete_type/{{ type.id }}">
+                                    <a href="delete_type/{{ type_id }}/{{ spec.id }}">
                                         <button class="button button-danger button-sm">Удалить
                                         </button>
                                     </a>
@@ -46,13 +59,21 @@
                 <form id="modal-form" method="post">
                     {% csrf_token %}
                     <div class="modal-block">
-                        <input type="hidden" id="type-id" name="type_id">
+                        <input type="hidden" id="spec-id" name="spec_id">
                         <label for="type">Тип:</label>
-                        <input type="text" id="type" name="type" class="modal-input" required maxlength="140">
+                        <input type="text" id="spec" name="spec" class="modal-input" required maxlength="140">
                     </div>
                     <div class="modal-block">
                         <label for="attribute">Характеристика:</label>
                         <input type="text" id="attribute" name="attribute" class="modal-input" required maxlength="140">
+                    </div>
+                    <div class="modal-block">
+                        <label for="type">Цветовая группа:</label>
+                        <select class="modal-select" id="type" name="type" required>
+                            {% for type in animal_types %}
+                                <option value="{{ type.id }}">{{ type.type.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="button-block">
                         <button type="button" id="cancel-btn" class="button button-cancel">Отмена</button>
@@ -63,7 +84,7 @@
         </div>
 
     </div>
-    <script type="module" src="/static/animals/types.js"></script>
+    <script type="module" src="/static/animals/specs.js"></script>
     <script type="module" src="/static/animals/main_modal.js"></script>
 
 {% endblock %}

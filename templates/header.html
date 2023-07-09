@@ -34,10 +34,10 @@
                                     <a href="" class="a_menu">Животные</a>
                                     <ul class="sub-menu">
                                         <li class="sub-menu-button">
-                                            <a href="" class="a_menu menu_active">&#8226;&nbsp;Типы&nbsp;животных</a>
+                                            <a href="{% url 'animals:animal_types' %}" class="a_menu menu_active">&#8226;&nbsp;Типы&nbsp;животных</a>
                                         </li>
                                         <li class="sub-menu-button">
-                                            <a href=""
+                                            <a href="{% url 'animals:animal_species' 0 %}"
                                                class="a_menu menu_active">&#8226;&nbsp;Виды&nbsp;Животных</a>
                                         </li>
                                     </ul>

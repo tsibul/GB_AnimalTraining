@@ -22,10 +22,8 @@
                 <li class="main_menu_line">
                     <ul class="dropdown_list">
                         <li class="dropdown_button">
-                            <a href="" class="a_menu">Животные</a>
-                        </li>
-                        <li class="dropdown_button">
-                            <a href="" class="a_menu">Обучение командам</a>
+                            <a href="{% url 'animals:animals' 0 0 %}"
+                               class="a_menu {% if navi == 'animals' %}menu_active{% endif %}">Животные</a>
                         </li>
                         <li class="dropdown_button menu-button">
                             <a href="" class="a_menu {% if navi == 'settings' %}menu_active{% endif %}">Настройки</a>

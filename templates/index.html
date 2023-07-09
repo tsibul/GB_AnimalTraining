@@ -1,114 +1,117 @@
 {% extends 'header.html' %}
-{% block title %}Список животных{% endblock %}
+{% block title %}Животные{% endblock %}
 {% block content %}
+    {% load static %}
 
     <div class="wrapper">
-        <div class="content">
-            <div class="container">
-                <h1>Производственное задание</h1>
-            </div>
-            <div class="inner_content">
-                <div class="container">
-                    <table class="responsive-table big-table">
-                        <thead>
-                        <tr>
-                            <th>Имя</th>
-                        <th class="show-on-small-screen">
-                            <select class="menu-select" id="product-filter" name="productGroup"
-                                    onchange="if (this.value) window.location.href = this.value">
-                                <option value="/color_doze/0">тип</option>
-                                <option th:each="product_group : ${productGroups}"
-                                        th:value="'/color_doze/' + ${product_group.productGroupId}"
-                                        th:selected="${productGroupsId} == ${product_group.productGroupId}"
-                                        th:text="${product_group.productGroupName}">
-                                </option>
-                            </select>
-                        </th>
-                        <th class="show-on-small-screen">
-                            <select class="menu-select" id="product-filter" name="productGroup"
-                                    onchange="if (this.value) window.location.href = this.value">
-                                <option value="/color_doze/0">вид</option>
-                                <option th:each="product_group : ${productGroups}"
-                                        th:value="'/color_doze/' + ${product_group.productGroupId}"
-                                        th:selected="${productGroupsId} == ${product_group.productGroupId}"
-                                        th:text="${product_group.productGroupName}">
-                                </option>
-                            </select>
-                        </th>
-                            <th>Дата рождения</th>
-                            <th>Возраст месяцев</th>
-                            <th colspan="2">характеристика типа</th>
-                            <th colspan="2">характеристика вида</th>
-                            <th>скилы</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
+        <div hidden data-type="{{ type_id }}" data-spec="{{ spec_id }}" id="url-parameters"></div>
+            <div class="content">
+                <div class="table-head">
+                    <h2>Типы</h2>
+                    <button id="add-btn" class="button button-submit">Добавить&nbsp;животное</button>
+                </div>
+                <div class="inner_content">
+                    <div class="container">
+                        <table class="responsive-table big-table">
+                            <thead>
+                            <tr>
+                                <th>имя</th>
+                                <th>дата<br>рождения</th>
+                                <th>возраст,<br>мес</th>
+                                <th class="show-on-small-screen">
+                                    <select class="menu-select" id="color-filter" name="colorGroup"
+                                            onchange="if (this.value) window.location.href = this.value">
+                                        <option value="0">тип</option>
+                                        {% for type in animal_types %}
+                                            <option value="{{ type.id }}"
+                                                    {% if type_id == type.id %}selected{% endif %}>{{ type.type_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </th>
+                                <th class="show-on-small-screen">
+                                    <select class="menu-select" id="color-filter" name="colorGroup"
+                                            onchange="if (this.value) window.location.href = this.value">
+                                        <option value="0">вид</option>
+                                        {% for spec in animal_specs %}
+                                            <option value="{{ spec.id }}"
+                                                    {% if spec_id == spec.id %}selected{% endif %}>{{ spec.specie_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </th>
+                                <th colspan="4">характеристики</th>
+                                <th>ученость</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for animal in animals %}
+                                <tr data-id="{{ animal.id }}" class="modal-row">
+                                    <td data-label="имя">{{ animal.animal_name }}</td>
+                                    <td data-label="дата рождения">{{ animal.date_birth|date:'d.m.Y' }}</td>
+                                    <td data-label="возраст, мес">{{ animal.animal_age_months }}</td>
+                                    <td>{{ animal.animal_spec.animal_type.type_name }}</td>
+                                    <td data-label="вид"
+                                        data-id="{{ animal.animal_spec.id }}">{{ animal.animal_spec.specie_name }}</td>
+                                    <td>{{ animal.animal_spec.specie_attribute }}</td>
+                                    <td data-label="характеристика вида">{{ animal.spec_attribute_value }}</td>
+                                    <td>{{ animal.animal_spec.animal_type.type_attribute }}</td>
+                                    <td data-label="характеристика типа">{{ animal.type_attribute_value }}</td>
+                                    <td>{{ animal.training_list }}</td>
+                                    <td onclick="event.stopPropagation()">
+                                        <a href="">
+                                            <button class="button button-submit button-sm">Обучать
+                                            </button>
+                                        </a>
+                                    </td>
+                                    <td onclick="event.stopPropagation()">
+                                        <a href="{% url 'animals:delete_animal' type_id spec.id animal.id %}">
+                                            <button class="button button-danger button-sm">Удалить
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
 
-                        </tr>
-
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Модальное окно для добавления и редактирования -->
-        <div class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <div id="modal-title" class="modal-title">Добавить цвет</div>
-                <form id="modal-form" method="post">
-                    <div class="modal-block">
-                        <input type="hidden" id="color-doze-id" name="productColorDozeId">
-                        <label for="product-group">Группа продуктов:</label>
-                        <select class="modal-select" name="productGroup" id="product-group"
-                                onchange="showColorByProductGroup(this);">
-                            <option th:each="productGroup: ${productGroups}"
-                                    th:text="${productGroup.productGroupName}"
-                                    th:value="${productGroup.productGroupId}"
-                                    th:data-color="${productGroup.colorGroup.colorGroupId}"></option>
-                        </select>
-                    </div>
-                    <div class="modal-block">
-                        <label for="master-batch">Суперконцентрат:</label>
-                        <select id="master-batch" name="masterBatch" required class="modal-select">
-                            <option th:each="masterBatch: ${masterBatches}"
-                                    th:text="${masterBatch.materialName}"
-                                    th:value="${masterBatch.materialId}"></option>
-                        </select>
-                    </div>
-                    <div class="modal-block">
-                        <label for="material-type">Тип материала:</label>
-                        <select id="material-type" name="materialType" required class="modal-select">
-                            <option th:each="materialType: ${materialTypes}"
-                                    th:value="${materialType.materialId}"
-                                    th:text="${materialType.materialName}"></option>
-                        </select>
-                    </div>
-                    <div class="modal-block">
-                        <label for="color">цвет:</label>
-                        <select id="color" name="color" class="modal-input list-left">
-                            <option th:each="color : ${colors}" th:value="${color.colorId}"
-                                    th:text="${color.colorCode} + ' ' + ${color.colorName}"
-                                    th:class="'color-' + ${color.colorGroup.colorGroupId}"
-                                    style="display: none"></option>
-                        </select>
-                    </div>
-                    <div class="modal-block">
-                        <label for="doze">Доза:</label>
-                        <input type="number" step="0.01" id="doze" name="doze" class="modal-input">
-                    </div>
-                    <div class="button-block">
-                        <button type="button" id="cancel-btn" class="button button-cancel">Отмена</button>
-                        <button type="submit" id="color-submit-btn" class="button button-submit">Сохранить</button>
-                    </div>
-                </form>
+            <!-- Модальное окно для добавления и редактирования -->
+            <div class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div id="modal-title" class="modal-title">Добавить животное</div>
+                    <form id="modal-form" method="post" action="{% url 'animals:add_animal' type_id spec_id %}">
+                        {% csrf_token %}
+                        <div class="modal-block">
+                            <input type="hidden" id="spec-id" name="spec_id">
+                            <label for="type">Вид:</label>
+                            <input type="text" id="spec" name="spec" class="modal-input" required maxlength="140">
+                        </div>
+                        <div class="modal-block">
+                            <label for="attribute">Характеристика:</label>
+                            <input type="text" id="attribute" name="attribute" class="modal-input" required
+                                   maxlength="140">
+                        </div>
+                        <div class="modal-block">
+                            <label for="type">Тип:</label>
+                            <select class="modal-select" id="type" name="type" required>
+                                {% for type in animal_types %}
+                                    <option value="{{ type.id }}">{{ type.type_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="button-block">
+                            <button type="button" id="cancel-btn" class="button button-cancel">Отмена</button>
+                            <button type="submit" id="color-submit-btn" class="button button-submit">Сохранить</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
 
-    </div>
-    <script type="module" src="{% static 'animals/indexjs' %}"></script>
-    <script type="module" src="{% static 'animals/main_modal.js' %}"></script>
+        </div>
+        <script type="module" src="/static/animals/animals.js"></script>
+        <script type="module" src="/static/animals/main_modal.js"></script>
 
 {% endblock %}

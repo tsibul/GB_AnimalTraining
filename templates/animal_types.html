@@ -25,7 +25,7 @@
                                 <td data-label="тип">{{ type.type_name }}</td>
                                 <td data-label="характеристика">{{ type.type_attribute }}</td>
                                 <td onclick="event.stopPropagation()">
-                                    <a href="delete_type/{{ type.id }}">
+                                    <a href="{% url 'animals:delete_type' type.id  %}">
                                         <button class="button button-danger button-sm">Удалить
                                         </button>
                                     </a>
@@ -43,7 +43,7 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <div id="modal-title" class="modal-title">Добавить цвет</div>
-                <form id="modal-form" method="post">
+                <form id="modal-form" method="post" action="{% url 'animals:add_animal_type' %}">
                     {% csrf_token %}
                     <div class="modal-block">
                         <input type="hidden" id="type-id" name="type_id">

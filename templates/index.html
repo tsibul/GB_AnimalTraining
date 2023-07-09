@@ -5,113 +5,124 @@
 
     <div class="wrapper">
         <div hidden data-type="{{ type_id }}" data-spec="{{ spec_id }}" id="url-parameters"></div>
-            <div class="content">
-                <div class="table-head">
-                    <h2>Типы</h2>
-                    <button id="add-btn" class="button button-submit">Добавить&nbsp;животное</button>
-                </div>
-                <div class="inner_content">
-                    <div class="container">
-                        <table class="responsive-table big-table">
-                            <thead>
-                            <tr>
-                                <th>имя</th>
-                                <th>дата<br>рождения</th>
-                                <th>возраст,<br>мес</th>
-                                <th class="show-on-small-screen">
-                                    <select class="menu-select" id="color-filter" name="colorGroup"
-                                            onchange="if (this.value) window.location.href = this.value">
-                                        <option value="0">тип</option>
-                                        {% for type in animal_types %}
-                                            <option value="{{ type.id }}"
-                                                    {% if type_id == type.id %}selected{% endif %}>{{ type.type_name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </th>
-                                <th class="show-on-small-screen">
-                                    <select class="menu-select" id="color-filter" name="colorGroup"
-                                            onchange="if (this.value) window.location.href = this.value">
-                                        <option value="0">вид</option>
-                                        {% for spec in animal_specs %}
-                                            <option value="{{ spec.id }}"
-                                                    {% if spec_id == spec.id %}selected{% endif %}>{{ spec.specie_name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </th>
-                                <th colspan="4">характеристики</th>
-                                <th>ученость</th>
-                                <th></th>
+        <div class="content">
+            <div class="table-head">
+                <h2>Типы</h2>
+                <button id="add-btn" class="button button-submit">Добавить&nbsp;животное</button>
+            </div>
+            <div class="inner_content">
+                <div class="container">
+                    <table class="responsive-table big-table">
+                        <thead>
+                        <tr>
+                            <th>имя</th>
+                            <th>дата<br>рождения</th>
+                            <th>возраст,<br>мес</th>
+                            <th class="show-on-small-screen">
+                                <select class="menu-select" id="color-filter" name="colorGroup"
+                                        onchange="if (this.value) window.location.href = '/animals/' + this.value + '/0';">
+                                    <option value="0">тип</option>
+                                    {% for type in animal_types %}
+                                        <option value="{{ type.id }}"
+                                                {% if type_id == type.id %}selected{% endif %}>{{ type.type_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </th>
+                            <th class="show-on-small-screen">
+                                <select class="menu-select" id="color-filter" name="colorGroup"
+                                        onchange="if (this.value) window.location.href = this.value">
+                                    <option value="0">вид</option>
+                                    {% for spec in animal_specs %}
+                                        <option value="{{ spec.id }}"
+                                                {% if spec_id == spec.id %}selected{% endif %}>{{ spec.specie_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </th>
+                            <th colspan="4">характеристики</th>
+                            <th>ученость</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for animal in animals %}
+                            <tr data-id="{{ animal.id }}" class="modal-row">
+                                <td data-label="имя">{{ animal.animal_name }}</td>
+                                <td data-label="дата рождения"
+                                    data-date="{{ animal.date_birth|date:'Y-m-d' }}">{{ animal.date_birth|date:'d.m.Y' }}</td>
+                                <td data-label="возраст, мес">{{ animal.animal_age_months }}</td>
+                                <td>{{ animal.animal_spec.animal_type.type_name }}</td>
+                                <td data-label="вид"
+                                    data-id="{{ animal.animal_spec.id }}">{{ animal.animal_spec.specie_name }}</td>
+                                <td data-label="spec-label">{{ animal.animal_spec.specie_attribute }}</td>
+                                <td data-label="характеристика вида">{{ animal.spec_attribute_value }}</td>
+                                <td data-label="type-label">{{ animal.animal_spec.animal_type.type_attribute }}</td>
+                                <td data-label="характеристика типа">{{ animal.type_attribute_value }}</td>
+                                <td>{{ animal.training_list }}</td>
+                                <td onclick="event.stopPropagation()">
+                                    <a href="">
+                                        <button class="button button-submit button-sm">Обучать
+                                        </button>
+                                    </a>
+                                </td>
+                                <td onclick="event.stopPropagation()">
+                                    <a href="{% url 'animals:delete_animal' type_id spec_id animal.id %}">
+                                        <button class="button button-danger button-sm">Удалить
+                                        </button>
+                                    </a>
+                                </td>
                             </tr>
-                            </thead>
-                            <tbody>
-                            {% for animal in animals %}
-                                <tr data-id="{{ animal.id }}" class="modal-row">
-                                    <td data-label="имя">{{ animal.animal_name }}</td>
-                                    <td data-label="дата рождения">{{ animal.date_birth|date:'d.m.Y' }}</td>
-                                    <td data-label="возраст, мес">{{ animal.animal_age_months }}</td>
-                                    <td>{{ animal.animal_spec.animal_type.type_name }}</td>
-                                    <td data-label="вид"
-                                        data-id="{{ animal.animal_spec.id }}">{{ animal.animal_spec.specie_name }}</td>
-                                    <td>{{ animal.animal_spec.specie_attribute }}</td>
-                                    <td data-label="характеристика вида">{{ animal.spec_attribute_value }}</td>
-                                    <td>{{ animal.animal_spec.animal_type.type_attribute }}</td>
-                                    <td data-label="характеристика типа">{{ animal.type_attribute_value }}</td>
-                                    <td>{{ animal.training_list }}</td>
-                                    <td onclick="event.stopPropagation()">
-                                        <a href="">
-                                            <button class="button button-submit button-sm">Обучать
-                                            </button>
-                                        </a>
-                                    </td>
-                                    <td onclick="event.stopPropagation()">
-                                        <a href="{% url 'animals:delete_animal' type_id spec.id animal.id %}">
-                                            <button class="button button-danger button-sm">Удалить
-                                            </button>
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
+                        {% endfor %}
 
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <!-- Модальное окно для добавления и редактирования -->
-            <div class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <div id="modal-title" class="modal-title">Добавить животное</div>
-                    <form id="modal-form" method="post" action="{% url 'animals:add_animal' type_id spec_id %}">
-                        {% csrf_token %}
-                        <div class="modal-block">
-                            <input type="hidden" id="spec-id" name="spec_id">
-                            <label for="type">Вид:</label>
-                            <input type="text" id="spec" name="spec" class="modal-input" required maxlength="140">
-                        </div>
-                        <div class="modal-block">
-                            <label for="attribute">Характеристика:</label>
-                            <input type="text" id="attribute" name="attribute" class="modal-input" required
-                                   maxlength="140">
-                        </div>
-                        <div class="modal-block">
-                            <label for="type">Тип:</label>
-                            <select class="modal-select" id="type" name="type" required>
-                                {% for type in animal_types %}
-                                    <option value="{{ type.id }}">{{ type.type_name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="button-block">
-                            <button type="button" id="cancel-btn" class="button button-cancel">Отмена</button>
-                            <button type="submit" id="color-submit-btn" class="button button-submit">Сохранить</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
         </div>
-        <script type="module" src="/static/animals/animals.js"></script>
-        <script type="module" src="/static/animals/main_modal.js"></script>
+        <!-- Модальное окно для добавления и редактирования -->
+        <div class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="modal-title" class="modal-title">Добавить животное</div>
+                <form id="modal-form" method="post" action="{% url 'animals:add_animal' type_id spec_id %}">
+                    {% csrf_token %}
+                    <div class="modal-block">
+                        <input type="hidden" id="spec-id" name="spec_id">
+                        <label for="name">Имя:</label>
+                        <input type="text" id="name" name="name" class="modal-input" required maxlength="140">
+                    </div>
+                    <div class="modal-block">
+                        <label for="date">Дата рождения:</label>
+                        <input type="date" id="date" name="date" class="modal-input" required>
+                    </div>
+                    <div class="modal-block">
+                        <label for="spec">Вид:</label>
+                        <select class="modal-select" id="spec" name="spec" required onchange="setLabels(this)">
+                            {% for spec in animal_specs %}
+                                <option value="{{ spec.id }}" data-spec-attribute="{{ spec.specie_attribute }}"
+                                        data-type-attribute="{{ spec.animal_type.type_attribute }}">{{ spec.specie_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="modal-block">
+                        <label for="spec_attr"></label>
+                        <input type="text" id="spec_attr" name="spec_attr" class="modal-input" maxlength="140">
+                    </div>
+                    <div class="modal-block">
+                        <label for="type_attr"></label>
+                        <input type="text" id="type_attr" name="type_attr" class="modal-input" maxlength="140">
+                    </div>
+
+                    <div class="button-block">
+                        <button type="button" id="cancel-btn" class="button button-cancel">Отмена</button>
+                        <button type="submit" id="color-submit-btn" class="button button-submit">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script type="module" src="/static/animals/animals.js"></script>
+    <script type="module" src="/static/animals/main_modal.js"></script>
+    <script src="/static/animals/animal_extra.js"></script>
 
 {% endblock %}

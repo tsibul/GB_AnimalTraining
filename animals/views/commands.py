@@ -17,7 +17,6 @@ def commands(request, type_id):
 
 
 def add_command(request, type_id):
-    animal_type = AnimalType.objects.get(id=request.POST['type'])
     spec = request.POST['spec']
     spec_id = request.POST['spec_id']
     try:
@@ -25,12 +24,16 @@ def add_command(request, type_id):
         command.command_name = spec
     except:
         command = Commands(command_name=spec)
-    command.animal_type = animal_type
+    try:
+        animal_type = AnimalType.objects.get(id=request.POST['type'])
+        command.animal_type = animal_type
+    except:
+        pass
     command.save()
-    return HttpResponseRedirect(reverse('animals:animal_species', args=(type_id,)))
+    return HttpResponseRedirect(reverse('animals:commands', args=(type_id,)))
 
 
 def delete_command(request, type_id, com_id):
     command = Commands.objects.get(id=com_id)
     command.delete()
-    return HttpResponseRedirect(reverse('animals:animal_species', args=(type_id,)))
+    return HttpResponseRedirect(reverse('animals:commands', args=(type_id,)))

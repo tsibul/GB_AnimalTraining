@@ -35,7 +35,9 @@
                             <tr data-id="{{ command.id }}" class="modal-row">
                                 <td data-label="команда">{{ command.command_name }}</td>
                                 <td data-label="тип"
-                                    data-id="{{ command.animal_type.id }}">{{ command.animal_type.type_name }}</td>
+                                    data-id="{{ command.animal_type.id }}">
+                                    {% if command.animal_type %}{{ command.animal_type.type_name }}{% else %}
+                                        универсальный{% endif %}</td>
                                 <td onclick="event.stopPropagation()">
                                     <a href="{% url 'animals:delete_command' type_id command.id %}">
                                         <button class="button button-danger button-sm">Удалить
@@ -65,6 +67,7 @@
                     <div class="modal-block">
                         <label for="type">Тип:</label>
                         <select class="modal-select" id="type" name="type" required>
+                            <option value="0">универсальный</option>
                             {% for type in animal_types %}
                                 <option value="{{ type.id }}">{{ type.type_name }}</option>
                             {% endfor %}

@@ -1,0 +1,114 @@
+{% extends 'header.html' %}
+{% block title %}Список животных{% endblock %}
+{% block content %}
+
+    <div class="wrapper">
+        <div class="content">
+            <div class="container">
+                <h1>Производственное задание</h1>
+            </div>
+            <div class="inner_content">
+                <div class="container">
+                    <table class="responsive-table big-table">
+                        <thead>
+                        <tr>
+                            <th>Имя</th>
+                        <th class="show-on-small-screen">
+                            <select class="menu-select" id="product-filter" name="productGroup"
+                                    onchange="if (this.value) window.location.href = this.value">
+                                <option value="/color_doze/0">тип</option>
+                                <option th:each="product_group : ${productGroups}"
+                                        th:value="'/color_doze/' + ${product_group.productGroupId}"
+                                        th:selected="${productGroupsId} == ${product_group.productGroupId}"
+                                        th:text="${product_group.productGroupName}">
+                                </option>
+                            </select>
+                        </th>
+                        <th class="show-on-small-screen">
+                            <select class="menu-select" id="product-filter" name="productGroup"
+                                    onchange="if (this.value) window.location.href = this.value">
+                                <option value="/color_doze/0">вид</option>
+                                <option th:each="product_group : ${productGroups}"
+                                        th:value="'/color_doze/' + ${product_group.productGroupId}"
+                                        th:selected="${productGroupsId} == ${product_group.productGroupId}"
+                                        th:text="${product_group.productGroupName}">
+                                </option>
+                            </select>
+                        </th>
+                            <th>Дата рождения</th>
+                            <th>Возраст месяцев</th>
+                            <th colspan="2">характеристика типа</th>
+                            <th colspan="2">характеристика вида</th>
+                            <th>скилы</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Модальное окно для добавления и редактирования -->
+        <div class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="modal-title" class="modal-title">Добавить цвет</div>
+                <form id="modal-form" method="post">
+                    <div class="modal-block">
+                        <input type="hidden" id="color-doze-id" name="productColorDozeId">
+                        <label for="product-group">Группа продуктов:</label>
+                        <select class="modal-select" name="productGroup" id="product-group"
+                                onchange="showColorByProductGroup(this);">
+                            <option th:each="productGroup: ${productGroups}"
+                                    th:text="${productGroup.productGroupName}"
+                                    th:value="${productGroup.productGroupId}"
+                                    th:data-color="${productGroup.colorGroup.colorGroupId}"></option>
+                        </select>
+                    </div>
+                    <div class="modal-block">
+                        <label for="master-batch">Суперконцентрат:</label>
+                        <select id="master-batch" name="masterBatch" required class="modal-select">
+                            <option th:each="masterBatch: ${masterBatches}"
+                                    th:text="${masterBatch.materialName}"
+                                    th:value="${masterBatch.materialId}"></option>
+                        </select>
+                    </div>
+                    <div class="modal-block">
+                        <label for="material-type">Тип материала:</label>
+                        <select id="material-type" name="materialType" required class="modal-select">
+                            <option th:each="materialType: ${materialTypes}"
+                                    th:value="${materialType.materialId}"
+                                    th:text="${materialType.materialName}"></option>
+                        </select>
+                    </div>
+                    <div class="modal-block">
+                        <label for="color">цвет:</label>
+                        <select id="color" name="color" class="modal-input list-left">
+                            <option th:each="color : ${colors}" th:value="${color.colorId}"
+                                    th:text="${color.colorCode} + ' ' + ${color.colorName}"
+                                    th:class="'color-' + ${color.colorGroup.colorGroupId}"
+                                    style="display: none"></option>
+                        </select>
+                    </div>
+                    <div class="modal-block">
+                        <label for="doze">Доза:</label>
+                        <input type="number" step="0.01" id="doze" name="doze" class="modal-input">
+                    </div>
+                    <div class="button-block">
+                        <button type="button" id="cancel-btn" class="button button-cancel">Отмена</button>
+                        <button type="submit" id="color-submit-btn" class="button button-submit">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script type="module" src="{% static 'animals/indexjs' %}"></script>
+    <script type="module" src="{% static 'animals/main_modal.js' %}"></script>
+
+{% endblock %}

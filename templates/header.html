@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <title> Разные животные</title>
+    <link rel="stylesheet" href="{% static 'animals/main.css' %}">
+    <link rel="stylesheet" href="{% static 'animals/header_footer_menu.css' %}">
+    <link rel="stylesheet" href="{% static 'animals/table.css' %}">
+    <link rel="stylesheet" href="{% static 'animals/modal.css' %}">
+
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+
+</head>
+<body>
+<div class="wrapper">
+    <div class="content">
+        <div class="header">
+            <ul class="main_menu">
+                <li class="nav_button"><img src="{% static 'animals/list.svg' %}" alt="navi"></li>
+                <li class="main_menu_line">
+                    <ul class="dropdown_list">
+                        <li class="dropdown_button">
+                            <a href="" class="a_menu">Животные</a>
+                        </li>
+                        <li class="dropdown_button">
+                            <a href="" class="a_menu">Обучение командам</a>
+                        </li>
+                        <li class="dropdown_button menu-button">
+                            <a href="" class="a_menu {% if navi == 'settings' %}menu_active{% endif %}">Настройки</a>
+                            <ul class="dropdown_menu">
+                                <li class="drop_button border-up">
+                                    <a href="" class="a_menu">Животные</a>
+                                    <ul class="sub-menu">
+                                        <li class="sub-menu-button">
+                                            <a href="" class="a_menu menu_active">&#8226;&nbsp;Типы&nbsp;животных</a>
+                                        </li>
+                                        <li class="sub-menu-button">
+                                            <a href=""
+                                               class="a_menu menu_active">&#8226;&nbsp;Виды&nbsp;Животных</a>
+                                        </li>
+                                    </ul>
+                                <li class="sub-menu-button">
+                                    <a href="" class="a_menu menu_active">Команды</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown_button">
+                    <a href="" class="a_menu">Счетчик</a>
+                </li>
+            </ul>
+        </div>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    {% include 'footer.html' %}
+</div>
+
+<script src="{% static 'animals/header.js' %}"></script>
+<script src="{% static 'animals/main.js' %}"></script>
+
+</body>
+</html>

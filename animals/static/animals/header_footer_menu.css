@@ -1,0 +1,137 @@
+.header {
+    color: white;
+    padding: 12px;
+    background-color: blueviolet;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.main_menu {
+    margin: 6px;
+    display: flex;
+    list-style: none;
+    padding: 2px;
+
+}
+.main_menu_line{
+    list-style: none;
+    display: flex;
+    width: 100%;
+}
+
+.nav_button {
+    display: none;
+}
+
+
+.dropdown_list{
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    width: 70%;
+}
+
+.a_menu{
+    text-decoration: none;
+    color: rgba(255,255,255,.55);
+}
+
+.dropdown_menu{
+    font-weight: normal;
+    background-color: blueviolet;
+    padding: 12px;
+    list-style: none;
+    display: none;
+    position: absolute;
+    border-radius: 10px;
+    z-index: 1;
+    transform: translateX(-16px);
+}
+
+.drop_button{
+    padding: 6px;
+}
+
+.border-up{
+    border-top: 1px solid #ffffff;
+}
+
+.menu_active {
+    color: #ffffff;
+}
+/*
+.menu-button:hover .dropdown_menu{
+    display: block;
+}
+*?
+ */
+
+
+.nav_button:hover, .dropdown_button_selected:hover, .a_menu:hover {
+    color: #293133;
+}
+
+.sub-menu{
+    padding-top: 4px;
+    display: none;
+    list-style: none;
+}
+
+.sub-menu-button{
+    padding: 6px;
+}
+/*
+.sub-menu-button:hover .sub-menu-item {
+    display: block;
+}
+ */
+
+
+@media screen and (max-width: 600px) {
+    .main_menu {
+        margin: 2px;
+        padding: 2px;
+        display: inline-block;
+        position: relative;
+    }
+
+    .main_menu:hover .dropdown_list {
+        display: block;
+    }
+
+    .dropdown_list{
+        background-color: blueviolet;
+        flex-direction: column;
+        padding: 12px;
+        border-radius: 10px;
+        display: none;
+        position: absolute;
+        min-width: 160px;
+        z-index: 1;
+        transform: translateX(-16px);
+
+    }
+
+    .nav_button {
+        display: block;
+    }
+
+    .dropdown_button {
+        padding: 6px;
+    }
+
+    .dropdown_menu {
+        left: 90%;
+        transform: translateY(-36px);
+    }
+}
+
+.footer {
+    flex: 0 0 auto;
+    color: white;
+    padding: 12px;
+    background-color: darkgreen;
+    margin: 10px;
+    border-radius: 10px;
+
+}

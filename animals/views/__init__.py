@@ -1,0 +1,1 @@
+from animals.views.animal_types import *

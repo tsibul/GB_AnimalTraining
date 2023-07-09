@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.content {
+  flex: 1 0 auto;
+}
+
+.inner_content{
+    background-blend-mode: soft-light;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50%;
+    
+}
+
+p {
+    font-size: 16px;
+    line-height: 26px;
+    color: #293133;
+
+}
+
+
+.container {
+    padding: 16px 6px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.container-big {
+    max-width: 1700px;
+}
+
+.job_to_do{
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.vertical_buttons_block{
+    display: flex;
+    flex-direction: column;
+    margin-left: 33%;
+    padding: 6px;
+    width: 33%;
+}
+
+.show {
+    display:block;
+}
+.unshow {
+    display:none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+@media screen and (max-width: 600px) {
+    h2{
+        font-size: 100%;
+        text-transform: uppercase;
+    }
+}
+/* Стили кнопок */
+.button {
+    display: inline-block;
+    margin: 2px;
+    padding: 8px 12px;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 10px;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-sm {
+    font-size: 14px;
+    margin: 1px;
+    padding: 4px 8px;
+}
+
+.button-submit{
+    background-color: #fff;
+    color: blueviolet;
+    border-color: blueviolet;
+}
+
+.button-cancel{
+    background-color: #fff;
+    color: #293133;
+    border-color: #293133;
+}
+
+.button-cancel-pushed{
+    background-color: #293133;
+    color: #fff;
+    border-color: #293133;
+}
+
+.button-danger{
+    background-color: #fff;
+    color: crimson;
+    border-color: crimson;
+}
+
+.button-submit:hover {
+    background-color: blueviolet;
+    color: #fff;
+}
+
+.button-cancel:hover {
+    background-color: #293133;
+    color: #fff;
+}
+
+.button-cancel-pushed:hover{
+    background-color: #fff;
+    color: #293133;
+}
+
+.button-danger:hover{
+    background-color: crimson;
+    color: #fff;
+}

@@ -48,3 +48,7 @@ def delete_animal(request, type_id, spec_id, animal_id):
     animal = Animals.objects.get(id=animal_id)
     animal.delete()
     return HttpResponseRedirect(reverse('animals:animals', args=(type_id, spec_id)))
+
+
+def training(request, type_id, spec_id):
+    return HttpResponseRedirect(reverse('animals:animals', args=(type_id, spec_id)))

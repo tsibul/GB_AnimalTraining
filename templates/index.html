@@ -59,10 +59,20 @@
                                 <td data-label="характеристика типа">{{ animal.type_attribute_value }}</td>
                                 <td>{{ animal.training_list }}</td>
                                 <td onclick="event.stopPropagation()">
-                                    <a href="">
-                                        <button class="button button-submit button-sm">Обучать
-                                        </button>
-                                    </a>
+                                    <button class="button button-submit button-sm" type="button"
+                                            data-id="{{ animal.id }}"
+                                            data-name="{{ animal.animal_name }}"
+                                            data-type="{{ animal.animal_spec.animal_type.id }}"
+                                            onclick="openTraining(this, true);">Обучать
+                                    </button>
+                                </td>
+                                <td onclick="event.stopPropagation()">
+                                    <button class="button button-cancel button-sm" type="button"
+                                            data-id="{{ animal.id }}"
+                                            data-name="{{ animal.animal_name }}"
+                                            data-type="{{ animal.animal_spec.animal_type.id }}"
+                                            onclick="openTraining(this, false);">Отучать
+                                    </button>
                                 </td>
                                 <td onclick="event.stopPropagation()">
                                     <a href="{% url 'animals:delete_animal' type_id spec_id animal.id %}">
@@ -78,7 +88,7 @@
                 </div>
             </div>
         </div>
-        <!-- Модальное окно для добавления и редактирования -->
+        <!-- Модальное окно для добавления и редактирования животнгых -->
         <div class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
@@ -115,6 +125,26 @@
                     <div class="button-block">
                         <button type="button" id="cancel-btn" class="button button-cancel">Отмена</button>
                         <button type="submit" id="color-submit-btn" class="button button-submit">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Модальное окно для тренировки животных -->
+        <div class="modal-training" id="modal-training">
+            <div class="modal-content">
+                <span class="close" onclick="closeTraining();">&times;</span>
+                <div id="training-title" class="modal-title">Учить животное</div>
+                <form id="modal-form" method="post" action="{% url 'animals:training' type_id spec_id %}">
+                    {% csrf_token %}
+                    <div class="modal-block">
+                        <input type="hidden" id="animal-id" name="animal_id">
+                        <label for="spec">Вид:</label>
+                        <select class="modal-select" id="command" name="command" required>
+                        </select>
+                    </div>
+                    <div class="button-block">
+                        <button type="button" onclick="closeTraining();" class="button button-cancel">Отмена</button>
+                        <button type="submit" class="button button-submit">Сохранить</button>
                     </div>
                 </form>
             </div>

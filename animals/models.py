@@ -52,7 +52,7 @@ class Animals(models.Model):
         return months
 
     def training_list(self):
-        return Training.objects.filter(animal=self).values_list('command').order_by('command')
+        return Training.objects.filter(animal=self).values_list('command', flat=True).order_by('command')
 
     def __repr__(self):
         return self.animal_spec.specie_name + ' ' + self.animal_name + ' ' + \

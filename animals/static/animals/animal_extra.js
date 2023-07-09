@@ -9,3 +9,20 @@ function setLabels(selectElement) {
     specAttrLabel.textContent = specAttr;
     typeAttrLabel.textContent = typeAttr;
 }
+
+function openTraining(button, param) {
+    const modal = document.querySelector(".modal-training");
+
+    const animalId = button.dataset.id;
+    const animalName = button.dataset.name;
+    const animalType = button.dataset.type;
+    modal.querySelector("#animal-id").value = animalId;
+    modal.querySelector("#training-title").textContent = (param ? "Обучить " : "Отучить ") + animalName;
+
+    modal.style.display = "block";
+}
+
+function closeTraining() {
+    const modal = document.getElementById("modal-training");
+    modal.style.display = "none";
+}

@@ -11,7 +11,7 @@ function setLabels(selectElement) {
 }
 
 function openTraining(button, param) {
-    const modal = document.querySelector(".modal-training");
+    const modal = document.getElementById("modal-training");
 
     const animalId = button.dataset.id;
     const animalName = button.dataset.name;

@@ -17,7 +17,7 @@ function fullData(row) {
         spec_id: row.dataset.id,
         spec: row.querySelector("[data-label='вид']").textContent,
         attribute: row.querySelector("[data-label='характеристика']").textContent,
-        type: row.querySelector("[daya-label='тип']").dataset.id
+        type: row.querySelector("[data-label='тип']").dataset.id
     };
 }
 
@@ -28,11 +28,7 @@ function emptyData(modal) {
     };
 }
 
-function action (){
-    return "add_animal_type/" + types_id;
-}
-
 // Вызываем функцию initialize, передавая необходимые функции
-initialize(inputs, emptyData, fullData, action);
+initialize(inputs, emptyData, fullData);
 
 

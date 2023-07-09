@@ -1,5 +1,5 @@
 // Определяем функцию initialize, которую будем использовать для инициализации модуля
-function initialize(inputsFn, emptyDataFn, fullDataFn, actionFn) {
+function initialize(inputsFn, emptyDataFn, fullDataFn) {
     const modalRows = document.querySelectorAll(".modal-row");
     const modal = document.querySelector(".modal");
     const closeModalBtn = modal.querySelector(".close");
@@ -13,7 +13,6 @@ function initialize(inputsFn, emptyDataFn, fullDataFn, actionFn) {
         const modalTitle = modal.querySelector("#modal-title");
         const modalForm = modal.querySelector("#modal-form");
         modalTitle.textContent = titleText;
-        modalForm.setAttribute("action", actionFn()); // Set the form action for editing
 
         for (const key in inputsFn(modal)) {
             inputsFn(modal)[key].value = modalData[key] || "";

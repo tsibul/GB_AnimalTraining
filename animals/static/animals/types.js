@@ -24,11 +24,7 @@ function emptyData(modal) {
     };
 }
 
-function action (){
-    return "add_animal_type";
-}
-
 // Вызываем функцию initialize, передавая необходимые функции
-initialize(inputs, emptyData, fullData, action);
+initialize(inputs, emptyData, fullData);
 
 

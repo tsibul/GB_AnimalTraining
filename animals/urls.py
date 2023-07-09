@@ -13,4 +13,7 @@ urlpatterns = [
     path('animal_species/<int:type_id>', views.animal_species, name='animal_species'),
     path('delete_spec/<int:type_id>/<int:spec_id>', views.delete_specie, name='delete_specie'),
 
+    path('commands/<int:type_id>', views.commands, name='commands'),
+    path('add_command/<int:type_id>', views.add_command, name='add_command'),
+    path('delete_command/<int:type_id>/<int:com_id>', views.delete_command, name='delete_command'),
 ]

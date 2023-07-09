@@ -1,0 +1,85 @@
+{% extends 'header.html' %}
+{% block title %}Команды{% endblock %}
+{% block content %}
+    {% load static %}
+
+    <div class="wrapper">
+        <input type="hidden" value="{{ type_id }}" id="url-parameters">
+        <div class="content">
+            <div class="table-head">
+                <h2>Команды</h2>
+                <button id="add-btn" class="button button-submit">Добавить&nbsp;команду</button>
+            </div>
+            <div class="inner_content">
+                <div class="container">
+                    <table class="responsive-table">
+                        <thead>
+                        <tr>
+                            <th>команда</th>
+                            <th class="show-on-small-screen">
+                                <select class="menu-select" id="color-filter" name="colorGroup"
+                                        onchange="if (this.value) window.location.href = this.value">
+                                    <option value="0">тип</option>
+                                    {% for type in animal_types %}
+                                        <option value="{{ type.id }}"
+                                                {% if type_id == type.id %}selected{% endif %}>{{ type.type_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </th>
+
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for command in command_list %}
+                            <tr data-id="{{ command.id }}" class="modal-row">
+                                <td data-label="команда">{{ command.command_name }}</td>
+                                <td data-label="тип"
+                                    data-id="{{ command.animal_type.id }}">{{ command.animal_type.type_name }}</td>
+                                <td onclick="event.stopPropagation()">
+                                    <a href="{% url 'animals:delete_command' type_id command.id %}">
+                                        <button class="button button-danger button-sm">Удалить
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Модальное окно для добавления и редактирования -->
+        <div class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div id="modal-title" class="modal-title">Добавить цвет</div>
+                <form id="modal-form" method="post" action="{% url 'animals:add_command' type_id %}">
+                    {% csrf_token %}
+                    <div class="modal-block">
+                        <input type="hidden" id="spec-id" name="spec_id">
+                        <label for="type">Команда:</label>
+                        <input type="text" id="spec" name="spec" class="modal-input" required maxlength="140">
+                    </div>
+                    <div class="modal-block">
+                        <label for="type">Тип:</label>
+                        <select class="modal-select" id="type" name="type" required>
+                            {% for type in animal_types %}
+                                <option value="{{ type.id }}">{{ type.type_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="button-block">
+                        <button type="button" id="cancel-btn" class="button button-cancel">Отмена</button>
+                        <button type="submit" id="color-submit-btn" class="button button-submit">Сохранить</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <script type="module" src="/static/animals/command.js"></script>
+    <script type="module" src="/static/animals/main_modal.js"></script>
+
+{% endblock %}

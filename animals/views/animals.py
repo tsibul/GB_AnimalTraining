@@ -29,6 +29,8 @@ def add_animal(request, type_id, spec_id):
     animal_spec = AnimalSpecies.objects.get(id=request.POST['spec'])
     spec_attr = request.POST['spec_attr']
     type_attr = request.POST['type_attr']
+    if type_attr == '':
+        type_attr = 0
     date_birth = datetime.strptime(request.POST['date'], '%Y-%m-%d')
     name = request.POST['name']
     animal_id = request.POST['spec_id']
@@ -47,7 +49,8 @@ def add_animal(request, type_id, spec_id):
     except:
         counter = Counter(animal=animal, date=date.today())
         if animal.type_attribute_value != '' and animal.spec_attribute_value != '':
-            counter_new = Counter.objects.aggregate(Max('counter')) + 1
+            counter_new = Counter.objects.aggregate(max_counter=Max('counter'))
+            counter_new = counter_new['max_counter'] + 1
             counter.counter = counter_new
         counter.save()
     return HttpResponseRedirect(reverse('animals:animals', args=(type_id, spec_id)))

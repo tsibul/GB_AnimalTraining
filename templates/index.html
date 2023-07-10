@@ -39,7 +39,7 @@
                                 </select>
                             </th>
                             <th colspan="4">характеристики</th>
-                            <th>ученость</th>
+                            <th >ученость</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -55,9 +55,9 @@
                                     data-id="{{ animal.animal_spec.id }}">{{ animal.animal_spec.specie_name }}</td>
                                 <td data-label="spec-label">{{ animal.animal_spec.specie_attribute }}</td>
                                 <td data-label="характеристика вида">{{ animal.spec_attribute_value }}</td>
-                                <td data-label="type-label">{{ animal.animal_spec.animal_type.type_attribute }}</td>
-                                <td data-label="характеристика типа">{{ animal.type_attribute_value }}</td>
-                                <td>{{ animal.training_list }}</td>
+                                <td data-label="type-label" style="max-width: 140px;">{{ animal.animal_spec.animal_type.type_attribute }}</td>
+                                <td data-label="характеристика типа" >{{ animal.type_attribute_value }}</td>
+                                <td style="max-width: 140px;">{{ animal.training_list }}</td>
                                 <td onclick="event.stopPropagation()">
                                     <button class="button button-submit button-sm" type="button"
                                             data-id="{{ animal.id }}"

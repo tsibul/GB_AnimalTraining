@@ -20,6 +20,8 @@ urlpatterns = [
     path('add_command/<int:type_id>', views.add_command, name='add_command'),
     path('delete_command/<int:type_id>/<int:com_id>', views.delete_command, name='delete_command'),
 
-    path('training/<int:type_id>/<int:com_id>', views.training, name='training'),
+    path('training/<int:type_id>/<int:spec_id>', views.training, name='training'),
+
+    path('json-data/<int:animal_id>/<int:param>', views.json_view, name='json_view'),
 
 ]

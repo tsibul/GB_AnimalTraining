@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from animals.models import AnimalType, AnimalSpecies, Animals
+from animals.models import AnimalType, AnimalSpecies, Animals, Commands, Training
 
 
 def animals(request, type_id, spec_id):
@@ -51,4 +51,13 @@ def delete_animal(request, type_id, spec_id, animal_id):
 
 
 def training(request, type_id, spec_id):
+    param = request.POST['param']
+    animal = Animals.objects.get(id=request.POST['animal_id'])
+    command = Commands.objects.get(id=request.POST['command'])
+    if param == '1':
+        training_item = Training(animal=animal, command=command)
+        training_item.save()
+    else:
+        training_item = Training.objects.get(animal=animal, command=command)
+        training_item.delete()
     return HttpResponseRedirect(reverse('animals:animals', args=(type_id, spec_id)))

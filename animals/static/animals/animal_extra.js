@@ -18,6 +18,26 @@ function openTraining(button, param) {
     const animalType = button.dataset.type;
     modal.querySelector("#animal-id").value = animalId;
     modal.querySelector("#training-title").textContent = (param ? "Обучить " : "Отучить ") + animalName;
+    modal.querySelector("#param").value = param ? 1 : 0;
+    const jsonUrl ='/animals/json-data/' + animalId +  (param ? '/0' : '/1');
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', jsonUrl, true);  // Используйте тот же URL-адрес
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const jsonData = JSON.parse(xhr.responseText);
+            const options = JSON.parse(jsonData).map(function (item) {
+                const pk = item.pk;
+                const commandName = item.fields.command_name;
+                const optionValue = pk;
+                return '<option value="' + optionValue + '">' + commandName + '</option>';
+            });
+
+            const optionsString = options.join('');
+            modal.querySelector("#command").innerHTML = optionsString; // использование innerHTML, а не textContent
+        }
+    };
+    xhr.send();
+
 
     modal.style.display = "block";
 }

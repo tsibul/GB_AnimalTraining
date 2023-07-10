@@ -80,3 +80,4 @@ class Training(models.Model):
 class Counter(models.Model):
     counter = models.IntegerField(default=0)
     animal = models.ForeignKey(Animals, models.SET_NULL, null=True)
+    date = models.DateField(default='2023-07-01')

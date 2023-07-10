@@ -1,10 +1,11 @@
 from datetime import date, datetime
 
+from django.db.models import Max
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from animals.models import AnimalType, AnimalSpecies, Animals, Commands, Training
+from animals.models import AnimalType, AnimalSpecies, Animals, Commands, Training, Counter
 
 
 def animals(request, type_id, spec_id):
@@ -41,6 +42,14 @@ def add_animal(request, type_id, spec_id):
         animal.spec_attribute_value = spec_attr
         animal.type_attribute_value = type_attr
         animal.save()
+    try:
+        counter = Counter.objects.get(animal=animal, counter__isnull=False)
+    except:
+        counter = Counter(animal=animal, date=date.today())
+        if animal.type_attribute_value != '' and animal.spec_attribute_value != '':
+            counter_new = Counter.objects.aggregate(Max('counter')) + 1
+            counter.counter = counter_new
+        counter.save()
     return HttpResponseRedirect(reverse('animals:animals', args=(type_id, spec_id)))
 
 

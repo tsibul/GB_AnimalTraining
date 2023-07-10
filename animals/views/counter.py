@@ -5,7 +5,8 @@ from animals.models import Counter
 
 
 def counter_list(request):
+    navi = 'counter'
     max_count = Counter.objects.aggregate(Max('counter'))
     counter = Counter.objects.all().order_by('-date')
-    context = {'max_count': max_count, 'counter': counter}
+    context = {'max_count': max_count, 'counter': counter, 'navi': navi}
     return render(request, 'counter.html', context)

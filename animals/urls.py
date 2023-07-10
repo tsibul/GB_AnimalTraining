@@ -24,4 +24,6 @@ urlpatterns = [
 
     path('json-data/<int:animal_id>/<int:param>', views.json_view, name='json_view'),
 
+    path('counter', views.counter_list, name='counter'),
+
 ]

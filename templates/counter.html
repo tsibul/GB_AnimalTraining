@@ -1,0 +1,40 @@
+{% extends 'header.html' %}
+{% block title %}Счетчик{% endblock %}
+{% block content %}
+    {% load static %}
+
+    <div class="wrapper">
+        <div class="content">
+            <div class="table-head">
+                <h1>счетчик&nbsp;{{ max_count }} </h1>
+            </div>
+            <div class="inner_content">
+                <div class="container">
+                    <table class="responsive-table">
+                        <thead>
+                        <tr>
+                            <th>дата</th>
+                            <th>счетчик</th>
+                            <th>имя</th>
+                            <th>вид</th>
+                            <th>тип</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for cnt in counter %}
+                            <tr>
+                                <td data-label="дата">{{ cnt.date|date:'d.m.Y' }}</td>
+                                <td data-label="счетчик">{{ cnt.counter }}</td>
+                                <td data-label="имя">{{ cnt.animal.animal_name }}</td>
+                                <td data-label="вид">{{ cnt.animal.animal_spec.specie_name }}</td>
+                                <td data-label="тип">{{ cnt.animal.animal_spec.animal_type.type_name }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}

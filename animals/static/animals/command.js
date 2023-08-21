@@ -14,7 +14,7 @@ function inputs(modal) {
 function fullData(row) {
     return {
         spec_id: row.dataset.id,
-        spec: row.querySelector("[data-label='вид']").textContent,
+        spec: row.querySelector("[data-label='команда']").textContent,
         type: row.querySelector("[data-label='тип']").dataset.id
     };
 }
